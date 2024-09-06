@@ -2,7 +2,7 @@ export default {
 
   editor: {
     label: {
-      en: "Highcharts - Bar",
+      en: "Highcharts - Pie",
     },
 
     icon: 'https://cdn.weweb.io/designs/c55504b2-3c64-44db-8bc0-db0aab821079/sections/highcharts.svg?_wwcv=1725614333416',
@@ -10,26 +10,29 @@ export default {
     customStylePropertiesOrder:[
       [
         'colorPalette',
-        'borderRadius',
-        'barWidth',
         'animationDuration',
-        'animationEasing',
-        
-      ], 
+      ],
+
+      [
+        'dataLabelsEnabled', 
+        'dataLabelsFormat',
+        'dataLabelsDistance',
+        'dataLabelsRotation',
+      ],
 
       [
         'legendEnabled',
+        'legendFormat',
         'legendLayout',
         'legendAlign',
         'legendVerticalAlign',
         'legendY', 
-        'legendDistance'
+        'legendDistance', 
       ], 
 
-      [ 
-        'zoomEnabled', 
-        'zoomType'
-      ]
+      [
+        'tooltipFormat',
+      ],
     ], 
 
     customSettingsPropertiesOrder:[
@@ -40,18 +43,14 @@ export default {
       ], 
 
       [
-        'tooltipFormat',
+        'angle',      
+        'donutEnabled',
+        'donutRadius',
       ],
 
       [
-        'dataLabelsEnabled', 
-        'dataLabelsFormat',
-        'dataLabelsInside', 
-        'dataLabelsAlign'
-      ],
-      [
         'exportingEnabled'
-      ]
+      ], 
 
     ]
   },
@@ -75,7 +74,7 @@ export default {
           tooltip: 'A collection of data in array format: `[{}, {}, ...]`',
       },
       /* wwEditor:end */
-  },
+    },
 
     series: {
       label: 'Series',
@@ -102,7 +101,6 @@ export default {
             { value: '{series.name}: <b>{point.y:.2f}€</b>', label: '€' },
         ],
       },      
-      section: 'settings',
       bindable: true,
       responsive: true,
       defaultValue: '{series.name}: <b>{point.y:.2f}</b>',
@@ -185,14 +183,22 @@ export default {
       hidden: content => !content.legendEnabled,
     },
 
-    barWidth: {
-      label: 'Bar width',
-      type: 'Number',
-      options: { min: -10, max: 5, step: 0.1 },
+    legendFormat: {
+      label: 'Format',
+      type: 'TextSelect',
+      options: {
+        options: [
+            { value: '{name}', label: 'Name' },
+            { value: '{name} : {y:.2f}%', label: 'Name + value %' },
+            { value: '{name} : {y:.2f}€', label: 'Name + value €' },
+        ],
+      },   
+         
       bindable: true,
       responsive: true,
-      defaultValue: 0.1,
+      defaultValue: '{name}',
     },
+    
     
     animationDuration: {
       label: 'Animation Duration (ms)',
@@ -206,7 +212,6 @@ export default {
     dataLabelsEnabled: {
       label: 'Enable Labels',
       type: 'OnOff',
-      section: 'settings',
       bindable: true,
       responsive: true,
       defaultValue: true,
@@ -223,41 +228,35 @@ export default {
             { value: '{point.y:.2f}€', label: '€' },
         ],
       },      
-      section: 'settings',
       bindable: true,
       responsive: true,
       defaultValue: '{point.y:.2f}',
       hidden: content => !content.dataLabelsEnabled,
     },
 
-    dataLabelsInside:{
-      label: 'Inside',
-      type: 'OnOff',
-      section: 'settings',
-      bindable: true,
-      responsive: true,
-      defaultValue: false,
-      hidden: content => !content.dataLabelsEnabled,
-
-    },
-
-    dataLabelsAlign: {
-      label: 'Position',
-      type: 'TextSelect',
-      section: 'settings',
+    dataLabelsDistance: {
+      label: 'Distance',
+      type: 'Length',
       options: {
-        options: [
-          { value: 'left', label: 'Left' },
-          { value: 'center', label: 'Center' },
-          { value: 'right', label: 'Right' }
-        ],
+          unitChoices: [{ value: 'px', label: 'px', min: -200, max: 200 }, { value: '%', label: '%', min: -200, max: 200 }],
       },
+      defaultValue: '30px',
       bindable: true,
       responsive: true,
-      defaultValue: {},
-      hidden: content => !content.dataLabelsInside,
+      states: true,
+      classes: true,
+      hidden: content => !content.dataLabelsEnabled,
     },
 
+    dataLabelsRotation: {
+      label: 'Rotation (deg°)',
+      type: 'Number',
+      options: { min: -360, max: 360, step: 15 },
+      bindable: true,
+      responsive: true,
+      defaultValue: 0,
+      hidden: content => !content.dataLabelsEnabled,
+    },
 
     exportingEnabled: {
       label: 'Exporting',
@@ -266,30 +265,6 @@ export default {
       bindable: true,
       responsive: true,
       defaultValue: false,
-    },
-
-    zoomEnabled: {
-      label: 'Zoom',
-      type: 'OnOff',
-      bindable: true,
-      responsive: true,
-      defaultValue: true,
-    },
-
-    zoomType: {
-      label: 'Type',
-      type: 'TextSelect',
-      options: {
-        options: [
-            { value: 'x', label: 'X' },
-            { value: 'y', label: 'Y' },
-            { value: 'xy', label: 'Both' },
-        ],
-      },      
-      bindable: true,
-      responsive: true,
-      defaultValue: 'x',
-      hidden: content => !content.zoomEnabled,
     },
 
     colorPalette:{
@@ -327,14 +302,44 @@ export default {
       defaultValue: 'metabase',
     },
 
-    borderRadius:{
-      label: 'Border radius',
-      type: 'Number',
-      options: { min: 0, max: 50, step: 1 },
+    donutEnabled: {
+      label: 'Donut',
+      type: 'OnOff',
       bindable: true,
       responsive: true,
-      defaultValue: 4,
+      defaultValue: false,
+      section: 'settings',
     },
+
+
+    donutRadius: {
+      label: 'Radius',
+      type: 'Length',
+      options: {
+          unitChoices: [{ value: '%', label: '%', min: 0, max: 100 }],
+      },
+      defaultValue: '50',
+      bindable: true,
+      responsive: true,
+      states: true,
+      classes: true,
+      hidden: content => !content.donutEnabled,
+      section: 'settings',
+    },
+
+    angle: {
+      label: 'Angle (deg°)',
+      type: 'Number',
+      defaultValue: '360',
+      options: { min: -0, max: 360, step: 15 },
+      bindable: true,
+      responsive: true,
+      states: true,
+      classes: true,
+      section: 'settings',
+    },
+
+
 
   },
 

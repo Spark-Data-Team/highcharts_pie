@@ -37,10 +37,6 @@ export default {
           type: 'pie',
           backgroundColor:'transparent',
 
-          zooming: {
-            type: this.content.zoomEnabled ? this.content.zoomType : null,
-            pinchType: this.content.zoomEnabled ? this.content.zoomType : null,
-          },
 
         },
 
@@ -77,31 +73,40 @@ export default {
           floating: false,
           y: this.content.legendY,
           itemDistance: this.content.legendDistance, 
-          itemStyle: {"color": "#1C1C1C", "cursor": "pointer", "fontSize": "0.8em", "fontWeight": "500", "textOverflow": "ellipsis"}, 
-        
+          labelFormat: this.content.legendFormat,
+          itemStyle: {"color": "#1C1C1C", "cursor": "pointer", "fontSize": "0.8em", "fontWeight": "500", "textOverflow": "ellipsis"},
         },
 
         plotOptions: {
-            series: {
-              groupPadding: this.content.barWidth, // Variable dynamique pour groupPadding
+
+            pie: {
+              innerSize: this.content.donutEnabled ? this.content.donutRadius : null,
+              
               animation: {
                 duration: this.content.animationDuration, // Variable pour la durée de l'animation
               },
 
-              borderRadius:this.content.borderRadius,
 
               dataLabels: {
                 enabled: this.content.dataLabelsEnabled, // Variable pour activer/désactiver les étiquettes
                 format: this.content.dataLabelsFormat, // Variable pour le format des étiquettes
-                align: this.content.dataLabelsInside ? this.content.dataLabelsAlign : null, 
+                align: this.content.dataLabelsAlign, 
                 inside: this.content.dataLabelsInside, 
                 style: {
                     fontWeight: '500',
                     fontSize:'0.8em'
-                }
-              }, 
+                },
+                distance: this.content.dataLabelsDistance,
+                rotation: this.content.dataLabelsRotation,
 
-              centerInCategory: true
+              },
+
+              showInLegend: this.content.legendEnabled,
+
+              startAngle: -90,
+              endAngle: this.content.angle,
+              centerInCategory: true, 
+
             }
         },
 
@@ -109,7 +114,7 @@ export default {
 
         series: [{
           name: 'Spend Share',
-          data: [26.1, 25.2, 15.0, 14.0, 7.8, 3.2, 1.6, 1.5, 1.2, 0.8, 0.6, 3.0], // Données pour Spend Share
+          data: [26.1, 25.293, 15.0, 14.0, 7.8, 3.2, 1.6, 1.5, 1.2, 0.8, 0.6, 3.0], // Données pour Spend Share
         }]
         
       };
