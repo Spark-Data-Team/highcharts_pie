@@ -34,7 +34,7 @@ export default {
         colors: this.selectedPalette, // Utiliser la palette sélectionnée
           
         chart: {
-          type: this.content.barOrientation,
+          type: 'pie',
           backgroundColor:'transparent',
 
           zooming: {
@@ -110,11 +110,6 @@ export default {
         series: [{
           name: 'Spend Share',
           data: [26.1, 25.2, 15.0, 14.0, 7.8, 3.2, 1.6, 1.5, 1.2, 0.8, 0.6, 3.0], // Données pour Spend Share
-         // color: 'rgb(160, 189, 241)' // Couleur pour Spend Share
-        }, {
-          name: 'Effect Share',
-          data: [27.6, 9.0, 15.4, 8.3, 4.1, 2.6, 11.0, 1.0, 5.2, 1.5, 1.4, 12.8], // Données pour Effect Share
-         // color: 'rgb(48, 111, 225)' // Couleur pour Effect Share
         }]
         
       };

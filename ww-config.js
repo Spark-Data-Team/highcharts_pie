@@ -8,8 +8,6 @@ export default {
     icon: 'https://cdn.weweb.io/designs/c55504b2-3c64-44db-8bc0-db0aab821079/sections/highcharts.svg?_wwcv=1725614333416',
 
     customStylePropertiesOrder:[
-      'barOrientation',
-
       [
         'colorPalette',
         'borderRadius',
@@ -61,21 +59,6 @@ export default {
   
 
   properties: {
-
-    barOrientation: {
-      label: 'Axis',
-      type: 'BigIconRadioGroup',
-      options: {
-          choices: [
-              { icon: 'align-bottom', value: 'column', label: 'X' },
-              { icon: 'align-left', value: 'bar', label: 'Y' },
-          ],
-      },
-      bindable: true,
-      responsive: true,
-      states: true,
-      defaultValue: 'column',
-  },
 
     categories: {
       label: 'Categories',
@@ -254,6 +237,8 @@ export default {
       bindable: true,
       responsive: true,
       defaultValue: false,
+      hidden: content => !content.dataLabelsEnabled,
+
     },
 
     dataLabelsAlign: {
