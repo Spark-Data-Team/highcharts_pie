@@ -2,10 +2,23 @@ export default {
 
   editor: {
     label: {
-      en: "Spend Share",
+      en: "Highcharts - Bar",
     },
 
+    icon: 'https://cdn.weweb.io/designs/c55504b2-3c64-44db-8bc0-db0aab821079/sections/highcharts.svg?_wwcv=1725614333416',
+
     customStylePropertiesOrder:[
+      'barOrientation',
+
+      [
+        'colorPalette',
+        'borderRadius',
+        'barWidth',
+        'animationDuration',
+        'animationEasing',
+        
+      ], 
+
       [
         'legendEnabled',
         'legendLayout',
@@ -13,15 +26,6 @@ export default {
         'legendVerticalAlign',
         'legendY', 
         'legendDistance'
-      ], 
-
-      [
-        'colorPalette',
-        'borderRadius',
-        'groupPadding',
-        'animationDuration',
-        'animationEasing',
-        
       ], 
 
       [ 
@@ -57,6 +61,21 @@ export default {
   
 
   properties: {
+
+    barOrientation: {
+      label: 'Axis',
+      type: 'BigIconRadioGroup',
+      options: {
+          choices: [
+              { icon: 'align-bottom', value: 'column', label: 'X' },
+              { icon: 'align-left', value: 'bar', label: 'Y' },
+          ],
+      },
+      bindable: true,
+      responsive: true,
+      states: true,
+      defaultValue: 'column',
+  },
 
     categories: {
       label: 'Categories',
@@ -183,8 +202,8 @@ export default {
       hidden: content => !content.legendEnabled,
     },
 
-    groupPadding: {
-      label: 'Group Padding',
+    barWidth: {
+      label: 'Bar width',
       type: 'Number',
       options: { min: -10, max: 5, step: 0.1 },
       bindable: true,

@@ -34,7 +34,7 @@ export default {
         colors: this.selectedPalette, // Utiliser la palette sélectionnée
           
         chart: {
-          type: 'bar',
+          type: this.content.barOrientation,
           backgroundColor:'transparent',
 
           zooming: {
@@ -83,7 +83,7 @@ export default {
 
         plotOptions: {
             series: {
-              groupPadding: this.content.groupPadding, // Variable dynamique pour groupPadding
+              groupPadding: this.content.barWidth, // Variable dynamique pour groupPadding
               animation: {
                 duration: this.content.animationDuration, // Variable pour la durée de l'animation
               },
