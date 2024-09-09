@@ -37,9 +37,9 @@ export default {
 
     customSettingsPropertiesOrder:[
       [
-        'categories',
-        'series', 
-        ''
+        'legend',
+        'seriesData', 
+        'seriesName',
       ], 
 
       [
@@ -59,8 +59,8 @@ export default {
 
   properties: {
 
-    categories: {
-      label: 'Categories',
+    legend: {
+      label: 'Legend',
       type: 'Info',
       options: { text: 'Bind categories data' },
       section: 'settings',
@@ -71,13 +71,13 @@ export default {
       /* wwEditor:start */
       bindingValidation: {
           type: 'array',
-          tooltip: 'A collection of data in array format: `[{}, {}, ...]`',
+          tooltip: 'A collection of data in array format: `[{"Meta"}, {"Google"}], ...]`',
       },
       /* wwEditor:end */
     },
 
-    series: {
-      label: 'Series',
+    seriesData: {
+      label: 'Data',
       type: 'Info',
       options: { text: 'Bind series data' },
       section: 'settings',
@@ -87,7 +87,7 @@ export default {
       defaultValue: null,
       bindingValidation: {
         type: 'array',
-        tooltip: 'A collection of data in array format: `[{name: XXX, data:[]}, {name: XXX, data:[]}, ...]`',
+        tooltip: 'A collection of data in array format: `[{12}, {14.27},{45.18}], ...]`',
       },
     },
 
@@ -96,14 +96,14 @@ export default {
       type: 'TextSelect',
       options: {
         options: [
-            { value: '{series.name}: <b>{point.y:.2f}</b>', label: 'Classic' },
-            { value: '{series.name}: <b>{point.y:.2f}%</b>', label: '%' },
-            { value: '{series.name}: <b>{point.y:.2f}€</b>', label: '€' },
+            { value: '{series.name}: <b>{point.y:,.2f}</b>', label: 'Classic' },
+            { value: '{series.name}: <b>{point.y:,.2f}%</b>', label: '%' },
+            { value: '{series.name}: <b>{point.y:,.2f}€</b>', label: '€' },
         ],
       },      
       bindable: true,
       responsive: true,
-      defaultValue: '{series.name}: <b>{point.y:.2f}</b>',
+      defaultValue: '{series.name}: <b>{point.y:,.2f}</b>',
     },
 
     legendEnabled: {
@@ -189,8 +189,8 @@ export default {
       options: {
         options: [
             { value: '{name}', label: 'Name' },
-            { value: '{name} : {y:.2f}%', label: 'Name + value %' },
-            { value: '{name} : {y:.2f}€', label: 'Name + value €' },
+            { value: '{name} : {y:,.2f}%', label: 'Name + value %' },
+            { value: '{name} : {y:,.2f}€', label: 'Name + value €' },
         ],
       },   
          
@@ -223,14 +223,14 @@ export default {
       type: 'TextSelect',
       options: {
         options: [
-            { value: '{point.y:.2f}', label: 'Classic' },
-            { value: '{point.y:.2f}%', label: '%' },
-            { value: '{point.y:.2f}€', label: '€' },
+          { value: '{point.y:,.2f}', label: 'Classic' }, // Ajout des virgules pour les milliers
+          { value: '{point.y:,.2f}%', label: '%' }, // Avec les virgules et pourcentage
+          { value: '{point.y:,.2f}€', label: '€' }, // Avec les virgules et euro
         ],
       },      
       bindable: true,
       responsive: true,
-      defaultValue: '{point.y:.2f}',
+      defaultValue: '{point.y:,.2f}',
       hidden: content => !content.dataLabelsEnabled,
     },
 
@@ -337,6 +337,25 @@ export default {
       states: true,
       classes: true,
       section: 'settings',
+    },
+
+    seriesName:{
+      label: "Data name",
+      type: 'Text',
+      defaultValue: 'Data',
+      bindable: true,
+      responsive: true,
+      states: true,
+      classes: true,
+      section: 'settings',
+      bindingValidation: {
+          validations: [
+              {
+                  type: 'string',
+              },
+          ],
+          tooltip: 'A string specifying the data name: `"CAC"`, `"CTR"`, `"Spend share"`',
+      },
     },
 
 

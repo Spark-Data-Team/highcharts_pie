@@ -54,7 +54,7 @@ export default {
         },
 
         xAxis: {
-          categories: this.content.categories,
+          legend: this.content.legend,
         },
 
         yAxis: {
@@ -110,12 +110,20 @@ export default {
             }
         },
 
-        // series: this.content.series
+            
+            series: [{
+              name: this.content.seriesName,
+              data: (Array.isArray(this.content.legend) && Array.isArray(this.content.seriesData)) 
+                  ? this.content.legend.map((category, index) => {
+                      return {
+                          name: category,  // Utilisation des catégories pour le nom
+                          y: this.content.seriesData[index]  // Utilisation des données de la série pour la valeur
+                      };
+                  })
+            : []  // Si l'une des variables est null ou indéfinie, retourne un tableau vide
+          }]
 
-        series: [{
-          name: 'Spend Share',
-          data: [26.1, 25.293, 15.0, 14.0, 7.8, 3.2, 1.6, 1.5, 1.2, 0.8, 0.6, 3.0], // Données pour Spend Share
-        }]
+      
         
       };
     },
